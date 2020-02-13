@@ -1,5 +1,7 @@
 package com.devsoftbd.personrestapi.service;
 
+import java.util.List;
+
 import com.devsoftbd.personrestapi.model.PersonModel;
 
 public interface PersonService {
@@ -12,4 +14,11 @@ public interface PersonService {
 	 * @param hobby
 	 */
 	public PersonModel setPersonHobbyListFromHobbyStringArray(PersonModel person, String[] hobby);
+
+	/**
+	 * This method should set hobby array from hobbylist
+	 * 
+	 * @param personList
+	 */
+	public void setHobbyArrayFromHobbyList(List<PersonModel> personList);
 }

@@ -30,4 +30,20 @@ public class PersonServiceImpl implements PersonService {
 		return person;
 	}
 
+	@Override
+	public void setHobbyArrayFromHobbyList(List<PersonModel> personList) {
+		if (personList != null && personList.size() > 0) {
+			personList.forEach(person -> {
+				if (person.getHobbyList() != null) {
+					String[] hobby = new String[person.getHobbyList().size()];
+					for (int i = 0; i < person.getHobbyList().size(); i++) {
+						hobby[i] = person.getHobbyList().get(i).getHobby();
+					}
+					person.setHobby(hobby);
+				}
+			});
+		}
+
+	}
+
 }

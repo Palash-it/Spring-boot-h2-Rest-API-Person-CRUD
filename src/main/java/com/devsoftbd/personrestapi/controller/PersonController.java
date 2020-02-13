@@ -32,7 +32,7 @@ public class PersonController {
 	@Autowired
 	private PersonService personService;
 
-	@PostMapping("/person")
+	@PostMapping("/persons")
 	public PersonModel createPerson(@Valid @RequestBody PersonModel person) {
 		if (person.getHobby() != null && person.getHobby().length > 0)
 			person = personService.setPersonHobbyListFromHobbyStringArray(person, person.getHobby());
@@ -42,7 +42,9 @@ public class PersonController {
 
 	@GetMapping("/persons")
 	public List<PersonModel> getAllPersons() {
-		return null;
+		List<PersonModel> list = personRepository.findAll();
+		personService.setHobbyArrayFromHobbyList(list);
+		return personRepository.findAll();
 	}
 
 	@GetMapping("/persons/{id}")
