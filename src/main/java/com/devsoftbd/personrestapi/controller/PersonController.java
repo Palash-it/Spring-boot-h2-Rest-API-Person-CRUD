@@ -1,10 +1,12 @@
 package com.devsoftbd.personrestapi.controller;
 
 import java.security.InvalidParameterException;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,14 +19,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.devsoftbd.personrestapi.model.PersonModel;
+import com.devsoftbd.personrestapi.repository.PersonRepository;
+import com.devsoftbd.personrestapi.service.PersonService;
 
 @RestController
-@RequestMapping(value = "/person-service", produces = { MediaType.APPLICATION_JSON_VALUE })
+@RequestMapping(value = "/person-service/api/v1", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class PersonController {
+
+	@Autowired
+	private PersonRepository personRepository;
+
+	@Autowired
+	private PersonService personService;
 
 	@PostMapping("/person")
 	public PersonModel createPerson(@Valid @RequestBody PersonModel person) {
-		return null;
+		if (person.getHobby() != null && person.getHobby().length > 0)
+			person = personService.setPersonHobbyListFromHobbyStringArray(person, person.getHobby());
+		person.setCreatedAt(new Date());
+		return personRepository.save(person);
 	}
 
 	@GetMapping("/persons")

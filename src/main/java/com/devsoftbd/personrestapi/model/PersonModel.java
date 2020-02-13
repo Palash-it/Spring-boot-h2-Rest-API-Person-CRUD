@@ -2,6 +2,7 @@ package com.devsoftbd.personrestapi.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,15 +13,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "persons")
+@JsonIgnoreProperties(value = { "createdAt", "updatedAt", "hobbyList" }, ignoreUnknown = true)
 public class PersonModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "persons_id")
 	private Long id;
 	@Column(name = "first_name")
 	private String firstName;
@@ -33,6 +43,14 @@ public class PersonModel implements Serializable {
 	private List<HobbyModel> hobbyList;
 	@Transient
 	private String[] hobby;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreatedDate
+	private Date createdAt;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at", insertable = false, updatable = true)
+	@LastModifiedDate
+	private Date updatedAt;
 
 	public PersonModel() {
 	}
@@ -43,6 +61,15 @@ public class PersonModel implements Serializable {
 		this.age = age;
 		this.favouriteColour = favouriteColour;
 		this.hobbyList = hobbyList;
+	}
+
+	public PersonModel(Long id, String firstName, String lastName, int age, String favouriteColour, String[] hobby) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.favouriteColour = favouriteColour;
+		this.hobby = hobby;
 	}
 
 	public Long getId() {
@@ -101,11 +128,26 @@ public class PersonModel implements Serializable {
 		this.hobby = hobby;
 	}
 
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 	@Override
 	public String toString() {
 		return "PersonModel [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age
-				+ ", favouriteColour=" + favouriteColour + ", hobbyList=" + hobbyList + ", hobby="
-				+ Arrays.toString(hobby) + "]";
+				+ ", favouriteColour=" + favouriteColour + ", hobby=" + Arrays.toString(hobby) + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + "]";
 	}
-
 }
