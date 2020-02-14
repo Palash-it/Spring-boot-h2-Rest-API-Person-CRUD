@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.devsoftbd.personrestapi.model.HobbyModel;
 import com.devsoftbd.personrestapi.model.PersonModel;
-import com.devsoftbd.personrestapi.service.HobbyService;
+import com.devsoftbd.personrestapi.repository.HobbyRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = PersonServiceImpl.class)
@@ -27,7 +27,9 @@ public class TestPersonServiceImpl {
 	@Autowired
 	private PersonServiceImpl personService;
 	@MockBean
-	private HobbyService hobbyService;
+	private HobbyServiceImpl hobbyService;
+	@MockBean
+	private HobbyRepository hobbyRepository;
 
 	private String[] hobby;
 	private PersonModel person = null;

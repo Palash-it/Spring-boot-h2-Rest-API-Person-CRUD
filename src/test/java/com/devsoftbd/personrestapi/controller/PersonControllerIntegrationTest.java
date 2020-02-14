@@ -59,7 +59,7 @@ public class PersonControllerIntegrationTest {
 		hobbyList.add(football);
 		personModel.setHobbyList(hobbyList);
 
-		ResponseEntity<PersonModel> postResponse = restTemplate.postForEntity(getRootUrl() + "/person", personModel,
+		ResponseEntity<?> postResponse = restTemplate.postForEntity(getRootUrl() + "/person", personModel,
 				PersonModel.class);
 		assertNotNull(postResponse);
 		assertNotNull(postResponse.getBody());
