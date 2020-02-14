@@ -1,7 +1,5 @@
 package com.devsoftbd.personrestapi.service;
 
-import java.util.List;
-
 import com.devsoftbd.personrestapi.model.PersonModel;
 
 public interface PersonService {
@@ -20,5 +18,5 @@ public interface PersonService {
 	 * 
 	 * @param personList
 	 */
-	public void setHobbyArrayFromHobbyList(List<PersonModel> personList);
+	public void setHobbyArrayFromHobbyList(PersonModel person);
 }

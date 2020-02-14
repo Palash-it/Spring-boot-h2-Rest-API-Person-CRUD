@@ -3,7 +3,6 @@ package com.devsoftbd.personrestapi.serviceImpl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,9 +52,7 @@ public class TestPersonServiceImpl {
 	public void setHobbyArrayFromHobbyList() {
 		List<HobbyModel> hobbyList = Arrays.stream(hobby).map(hby -> new HobbyModel(hby)).collect(Collectors.toList());
 		person.setHobbyList(hobbyList);
-		List<PersonModel> personList = new ArrayList<>();
-		personList.add(person);
-		personService.setHobbyArrayFromHobbyList(personList);
+		personService.setHobbyArrayFromHobbyList(person);
 		assertNotNull(person.getHobby());
 	}
 }

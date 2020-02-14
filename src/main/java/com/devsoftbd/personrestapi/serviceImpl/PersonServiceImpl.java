@@ -31,9 +31,7 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	public void setHobbyArrayFromHobbyList(List<PersonModel> personList) {
-		if (personList != null && personList.size() > 0) {
-			personList.forEach(person -> {
+	public void setHobbyArrayFromHobbyList(PersonModel person) {
 				if (person.getHobbyList() != null) {
 					String[] hobby = new String[person.getHobbyList().size()];
 					for (int i = 0; i < person.getHobbyList().size(); i++) {
@@ -41,9 +39,6 @@ public class PersonServiceImpl implements PersonService {
 					}
 					person.setHobby(hobby);
 				}
-			});
-		}
-
 	}
 
 }
