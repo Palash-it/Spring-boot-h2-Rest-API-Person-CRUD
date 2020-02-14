@@ -19,4 +19,11 @@ public interface PersonService {
 	 * @param personList
 	 */
 	public void setHobbyArrayFromHobbyList(PersonModel person);
+
+	/**
+	 * This method should delete all hobbies from hobby table according to personId
+	 * 
+	 * @param personId
+	 */
+	public void deleteHobbyByPersonId(Long personId);
 }
