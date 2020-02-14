@@ -1,5 +1,6 @@
 package com.devsoftbd.personrestapi.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -15,8 +16,10 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.HttpClientErrorException;
 
 import com.devsoftbd.personrestapi.PersonRestApiApplication;
 import com.devsoftbd.personrestapi.model.HobbyModel;
@@ -87,5 +90,18 @@ public class PersonControllerIntegrationTest {
 		restTemplate.put(getRootUrl() + "/persons/" + id, person);
 		PersonModel updatedPerson = restTemplate.getForObject(getRootUrl() + "/persons/" + id, PersonModel.class);
 		assertNotNull(updatedPerson);
+	}
+
+	@Test
+	public void testDeletePerson() {
+		int id = 1;
+		PersonModel person = restTemplate.getForObject(getRootUrl() + "/persons/" + id, PersonModel.class);
+		assertNotNull(person);
+		restTemplate.delete(getRootUrl() + "/persons/" + id);
+		try {
+			person = restTemplate.getForObject(getRootUrl() + "/persons/" + id, PersonModel.class);
+		} catch (HttpClientErrorException e) {
+			assertEquals(e.getStatusCode(), HttpStatus.NOT_FOUND);
+		}
 	}
 }
