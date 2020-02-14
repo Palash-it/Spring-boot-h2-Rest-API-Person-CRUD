@@ -1,6 +1,5 @@
 package com.devsoftbd.personrestapi.controller;
 
-import java.security.InvalidParameterException;
 import java.util.Date;
 import java.util.List;
 
@@ -61,14 +60,37 @@ public class PersonController {
 		return ResponseEntity.ok().body(person);
 	}
 
+	/**
+	 * Before update a person first delete all hobbies from hobby table to keep only
+	 * last provided hobbies
+	 * 
+	 * @param personId
+	 * @param personDetails
+	 * @return updatedPerson Object
+	 * @throws ResourceNotFoundException
+	 */
 	@PutMapping("/persons/{id}")
 	public ResponseEntity<PersonModel> updatePerson(@PathVariable(value = "id") Long personId,
-			@Valid @RequestBody PersonModel personDetails) throws InvalidParameterException {
-		return null;
+			@Valid @RequestBody PersonModel personDetails) throws ResourceNotFoundException {
+		PersonModel person = personRepository.findById(personId)
+				.orElseThrow(() -> new ResourceNotFoundException("Person was not found for provided id : " + personId));
+		//delete hobbies for this person//
+		personService.deleteHobbyByPersonId(person.getId());
+		person.setFirstName(personDetails.getFirstName());
+		person.setLastName(personDetails.getLastName());
+		person.setAge(personDetails.getAge());
+		person.setFavouriteColour(personDetails.getFavouriteColour());
+		person.setUpdatedAt(new Date());
+		person = personService.setPersonHobbyListFromHobbyStringArray(person, personDetails.getHobby());
+		PersonModel updatedPerson = personRepository.save(person);
+		personService.setHobbyArrayFromHobbyList(updatedPerson);
+		return ResponseEntity.ok().body(updatedPerson);
 	}
 
-	@DeleteMapping("/employees/{id}")
-	public ResponseEntity<String> deletePersonById(@PathVariable(value = "id") Long personId) {
+	@DeleteMapping("/persons/{id}")
+	public ResponseEntity<String> deletePersonById(@PathVariable(value = "id") Long personId)
+			throws ResourceNotFoundException {
+
 		return null;
 	}
 

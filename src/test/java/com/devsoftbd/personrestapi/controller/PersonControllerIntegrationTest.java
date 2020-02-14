@@ -77,4 +77,15 @@ public class PersonControllerIntegrationTest {
 		System.out.println(person.getFirstName());
 		assertNotNull(person);
 	}
+
+	@Test
+	public void testUpdatePerson() {
+		int id = 1;
+		PersonModel person = restTemplate.getForObject(getRootUrl() + "/persons/" + id, PersonModel.class);
+		person.setFirstName("palash");
+		person.setLastName("nath");
+		restTemplate.put(getRootUrl() + "/persons/" + id, person);
+		PersonModel updatedPerson = restTemplate.getForObject(getRootUrl() + "/persons/" + id, PersonModel.class);
+		assertNotNull(updatedPerson);
+	}
 }
