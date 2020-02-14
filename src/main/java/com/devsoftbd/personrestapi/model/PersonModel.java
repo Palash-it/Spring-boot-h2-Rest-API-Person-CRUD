@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -32,6 +34,8 @@ public class PersonModel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "persons_id")
 	private Long id;
+	@NotNull(message = "person's first name can not be null")
+	@NotEmpty(message = "person's first name is required")
 	@Column(name = "first_name")
 	private String firstName;
 	@Column(name = "last_name")

@@ -1,18 +1,21 @@
 package com.devsoftbd.personrestapi.exception;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 
 public class ErrorDetails {
 
 	private Date timestamp;
+	private HttpStatus status;
 	private String message;
-	private String details;
+	private List<String> errors;
 
-	public ErrorDetails(Date timestamp, String message, String details) {
-		super();
-		this.timestamp = timestamp;
+	public ErrorDetails(Date timestamp, HttpStatus status, String message, List<String> errors) {
+		this.status = status;
 		this.message = message;
-		this.details = details;
+		this.errors = errors;
 	}
 
 	public Date getTimestamp() {
@@ -31,12 +34,20 @@ public class ErrorDetails {
 		this.message = message;
 	}
 
-	public String getDetails() {
-		return details;
+	public HttpStatus getStatus() {
+		return status;
 	}
 
-	public void setDetails(String details) {
-		this.details = details;
+	public void setStatus(HttpStatus status) {
+		this.status = status;
+	}
+
+	public List<String> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(List<String> errors) {
+		this.errors = errors;
 	}
 
 }
