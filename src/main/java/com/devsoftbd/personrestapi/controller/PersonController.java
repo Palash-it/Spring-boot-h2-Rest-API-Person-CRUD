@@ -33,11 +33,12 @@ public class PersonController {
 	private PersonService personService;
 
 	@PostMapping("/persons")
-	public PersonModel createPerson(@Valid @RequestBody PersonModel person) {
+	public ResponseEntity<?> createPerson(@Valid @RequestBody PersonModel person) {
 		if (person.getHobby() != null && person.getHobby().length > 0)
 			person = personService.setPersonHobbyListFromHobbyStringArray(person, person.getHobby());
 		person.setCreatedAt(new Date());
-		return personRepository.save(person);
+		PersonModel createdPerson = personRepository.save(person);
+		return ResponseEntity.ok().body(createdPerson);
 	}
 
 	@GetMapping("/persons")

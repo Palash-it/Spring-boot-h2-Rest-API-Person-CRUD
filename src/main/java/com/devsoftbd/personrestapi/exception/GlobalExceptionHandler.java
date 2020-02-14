@@ -7,8 +7,6 @@ import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,12 +40,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		List<String> errors = new ArrayList<String>();
-		for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+		ex.getBindingResult().getFieldErrors().forEach(error -> {
 			errors.add(error.getField() + ": " + error.getDefaultMessage());
-		}
-		for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+		});
+		ex.getBindingResult().getGlobalErrors().forEach(error -> {
 			errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
-		}
+		});
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR,
 				"Entity validation failed", errors);
 		return new ResponseEntity<Object>(errorDetails, errorDetails.getStatus());
@@ -60,6 +58,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		errors.add(ex.getName() + " should be of type " + ex.getRequiredType().getName());
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), HttpStatus.BAD_REQUEST,
 				"Method argument type mismatch", errors);
+		return new ResponseEntity<>(errorDetails, errorDetails.getStatus());
+	}
+
+	@ExceptionHandler({ IllegalArgumentException.class })
+	public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+		List<String> errors = new ArrayList<>();
+		errors.add("IllegalArgument was found with request. Please check api request details");
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), HttpStatus.BAD_REQUEST, "IllegalArgumentException",
+				errors);
 		return new ResponseEntity<>(errorDetails, errorDetails.getStatus());
 	}
 
