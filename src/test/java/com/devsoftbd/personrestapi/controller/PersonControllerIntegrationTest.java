@@ -70,4 +70,11 @@ public class PersonControllerIntegrationTest {
 				String.class);
 		assertNotNull(response.getBody());
 	}
+
+	@Test
+	public void testGetPersonById() {
+		PersonModel person = restTemplate.getForObject(getRootUrl() + "/persons/1", PersonModel.class);
+		System.out.println(person.getFirstName());
+		assertNotNull(person);
+	}
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.devsoftbd.personrestapi.exception.ResourceNotFoundException;
 import com.devsoftbd.personrestapi.model.PersonModel;
 import com.devsoftbd.personrestapi.repository.PersonRepository;
 import com.devsoftbd.personrestapi.service.PersonService;
@@ -43,14 +44,21 @@ public class PersonController {
 	@GetMapping("/persons")
 	public List<PersonModel> getAllPersons() {
 		List<PersonModel> list = personRepository.findAll();
-		personService.setHobbyArrayFromHobbyList(list);
+		if (list != null && list.size() > 0) {
+			list.forEach(person -> {
+				personService.setHobbyArrayFromHobbyList(person);
+			});
+		}
 		return personRepository.findAll();
 	}
 
 	@GetMapping("/persons/{id}")
 	public ResponseEntity<PersonModel> getByPersonId(@PathVariable(value = "id") Long personId)
-			throws InvalidParameterException {
-		return null;
+			throws ResourceNotFoundException {
+		PersonModel person = personRepository.findById(personId)
+				.orElseThrow(() -> new ResourceNotFoundException("Person was not found for provided id :" + personId));
+		personService.setHobbyArrayFromHobbyList(person);
+		return ResponseEntity.ok().body(person);
 	}
 
 	@PutMapping("/persons/{id}")
