@@ -39,7 +39,7 @@ public class PersonModel implements Serializable {
 	private int age;
 	@Column(name = "favourite_colour")
 	private String favouriteColour;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, mappedBy = "person")
 	private List<HobbyModel> hobbyList;
 	@Transient
 	private String[] hobby;
