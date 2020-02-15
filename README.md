@@ -58,12 +58,16 @@ Give an example
 
 ## Deployment
 
-Build project using mvn clean install and upload war file to live tomcat container. Then start tomcat server using ssh startup.sh command
+Build project using mvn clean install package and name the generated target/person-rest-api.war to ROOT.war then upload it to tomcat8 container. Start tomcat using sh startup.sh on linux machine and for windows click startup.bat file
+
+```
+mvn clean install package
+```
 Project default port 8080 which can be change using application.properties file property server.port=
 
 ## Run with embed tomcat
 
-Build project with mvn clean install and use java -jar to target/person-rest-api-0.0.1-SNAPSHOT.war
+Build project with mvn clean install and use java -jar to target/person-rest-api.war
 
 ## Front end UI
 
