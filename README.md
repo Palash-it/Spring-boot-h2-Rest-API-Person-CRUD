@@ -69,7 +69,7 @@ Build project with mvn clean install and use java -jar to target/person-rest-api
 
 I have build a front end UI using pure HTML/CSS/JS which can be run on any machine without anything installation. Used vue.js to populate html DOM and axios to call REST api
 Please download the reposioty from bellow link
-[a link](https://github.com/Palash-it/simple-frontend-ui-to-test-person-rest-api)
+[Front End UI Repository](https://github.com/Palash-it/simple-frontend-ui-to-test-person-rest-api)
 
 Front End UI using a js file name common.js inside resources/js/ where API_BASE_URL = "http://localhost:8080/person-service/api/v1/" mentioned. If you change REST API port then this url need to be updated
 
