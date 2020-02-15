@@ -48,14 +48,6 @@ Run only PersonControllerIntegrationTest test class using bellow command
 mvn -Dtest=PersonControllerIntegrationTest test
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
 ## Deployment
 
 Build project using mvn clean install package and name the generated target/person-rest-api.war to ROOT.war then upload it to tomcat8 container. Start tomcat using sh startup.sh on linux machine and for windows click startup.bat file
@@ -77,8 +69,9 @@ Please download the reposioty from bellow link
 
 Front End UI using a js file name common.js inside resources/js/ where API_BASE_URL = "http://localhost:8080/person-service/api/v1/" mentioned. If you change REST API port then this url need to be updated
 
-You can use REST TEST client application Postman as well. use enity like bellow
+You can use REST TEST client application Postman as well. use entity like bellow
 body json data
+```
 {
 	"firstName":"Palash Kumar",
 	"lastName" : "Nath",
@@ -86,6 +79,7 @@ body json data
 	"favouriteColour" : "blue",
 	"hobby" : ["gardening","programming"]
 }
+```
 
 I made firstName as required/mandatory to show some default constrain violation messages
 
